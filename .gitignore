@@ -134,5 +134,4 @@ data/**
 
 great_expectations/uncommitted/
 scripts/data_trend_report/output/
-/pyproject.toml
 /poetry.lock
