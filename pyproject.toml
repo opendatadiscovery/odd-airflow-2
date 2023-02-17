@@ -21,4 +21,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.plugins."airflow.plugins"]
-"OddPlugin" = "odd_airflow_integration.plugin:OddPlugin"
+"OddPlugin" = "odd_airflow2_integration.plugin:OddPlugin"
