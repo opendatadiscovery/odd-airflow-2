@@ -43,5 +43,5 @@ jobs:
           then
             git add .
             git commit -m "Bump package version"
-            git push origin main
+            git push origin master
           fi
