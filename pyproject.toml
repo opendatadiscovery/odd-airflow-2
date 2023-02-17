@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "odd-airflow-integration"
+name = "odd-airflow2-integration"
 version = "0.0.5"
 description = "ODD integration with Airflow"
 authors = ["Open Data Discovery <pypi@opendatadiscovery.org>"]
