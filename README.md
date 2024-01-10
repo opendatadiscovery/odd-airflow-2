@@ -22,3 +22,39 @@ poetry add odd-airflow2-integration
 # or
 pip install odd-airflow2-integration
 ```
+
+## Lineage
+To build a proper lineage for tasks we need somehow to deliver the information
+about what are the inputs and outputs for each task. So we decided to follow the
+old Airflow concepts for lineage creation and use the `inlets` and `outlets`
+attributes.
+
+So `inlets`/`outlets` attributes are being used to list Datasets' ODDRNs that
+are considered to be the inputs/outputs for the task.
+
+Example of defining `inlets` and `outlets` using TaskFlow:
+```python
+@task(
+    task_id="task_2",
+    inlets=["//airflow/internal_host/dags/test_dag/tasks/task_1", ],
+    outlets=["//airflow/internal_host/dags/test_dag/tasks/task_3", ]
+)
+def transform(data_dict: dict):
+    pass
+
+task_2 = transform()
+```
+Example using Operators:
+```python
+task_2 = PythonOperator(
+    task_id="task_2",
+    python_callable=transform,
+    inlets=["//airflow/internal_host/dags/test_dag/tasks/task_1", ],
+    outlets=["//airflow/internal_host/dags/test_dag/tasks/task_3", ]
+)
+```
+
+Also it is worth to mention that neither `inlets` nor `outlets` can not be
+templated using the `template_fields` of Operators that have this option.
+More information about this topic is presented in the comment section for
+the following [issue](https://github.com/opendatadiscovery/odd-airflow-2/issues/8#issuecomment-1884554977).
