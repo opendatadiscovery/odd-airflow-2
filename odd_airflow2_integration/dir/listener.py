@@ -30,12 +30,6 @@ def execute_in_thread(target: Callable, kwargs=None):
     thread.join(timeout=1)
 
 
-def task_has_io(task: Operator) -> bool:
-    if len(task.inlets) > 0 or len(task.outlets) > 0:
-        return True
-    return False
-
-
 def build_meta(obj: Union[Operator, DAG]) -> Dict[str, Any]:
     meta = {"Dag": obj.dag_id}
     if obj.doc_md is not None:
@@ -48,10 +42,10 @@ def build_meta(obj: Union[Operator, DAG]) -> Dict[str, Any]:
 @hookimpl
 def on_dag_run_running(dag_run: "DagRun", msg: str):
     def on_dag_run():
-        tasks = dag_run.dag.tasks
-        tasks_with_io = [TaskWithIO(dag_run.dag_id, task.task_id, task.inlets, task.outlets, build_meta(task))
-                         for task in tasks if
-                         task_has_io(task)]
+        tasks_with_io = [
+            TaskWithIO(dag_run.dag_id, task.task_id, task.inlets, task.outlets, build_meta(task))
+            for task in dag_run.dag.tasks
+        ]
         reg_status = integrator.register_source()
         if reg_status != 200:
             log.error('odd source is not registered')
