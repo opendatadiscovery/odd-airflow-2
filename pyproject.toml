@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "odd-airflow2-integration"
-version = "0.0.7"
+version = "0.0.8"
 description = "ODD integration with Airflow"
 authors = ["Open Data Discovery <pypi@opendatadiscovery.org>"]
 license = "Apache-2.0"
